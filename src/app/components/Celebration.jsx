@@ -51,7 +51,7 @@ export default function Celebration({ onNext }) {
             transition={{ duration: 0.8 }}
         >
             {/* Hidden audio element */}
-            <audio ref={audioRef} src="/audio.mp3" preload="auto" />
+            <audio ref={audioRef} src="audio.mp3" preload="auto" />
 
             <motion.div
                 className="text-center mb-12"

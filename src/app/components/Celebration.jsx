@@ -1,12 +1,14 @@
 "use client"
 
 import { motion } from "motion/react"
-import { Gift, Sparkles, Heart } from "lucide-react"
+import { Gift, Sparkles } from "lucide-react"
 import confetti from "canvas-confetti"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export default function Celebration({ onNext }) {
     const colors = ["#ff69b4", "#ff1493", "#9370db"]
+    const audioRef = useRef(null)
+
     useEffect(() => {
         const duration = 2500
         const end = Date.now() + duration
@@ -32,6 +34,14 @@ export default function Celebration({ onNext }) {
         frame()
     }, [])
 
+    // Button click handler
+    const handleCelebrate = () => {
+        if (audioRef.current) {
+            audioRef.current.play().catch((err) => console.log("Audio play error:", err))
+        }
+        if (onNext) onNext()
+    }
+
     return (
         <motion.div
             className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
@@ -40,6 +50,8 @@ export default function Celebration({ onNext }) {
             exit={{ opacity: 0, y: -100 }}
             transition={{ duration: 0.8 }}
         >
+            {/* Hidden audio element */}
+            <audio ref={audioRef} src="/audio.mp3" preload="auto" />
 
             <motion.div
                 className="text-center mb-12"
@@ -99,7 +111,7 @@ export default function Celebration({ onNext }) {
                 }}
             >
                 <button
-                    onClick={onNext}
+                    onClick={handleCelebrate}
                     className="relative bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white text-lg px-8 py-4 rounded-full shadow-xl border-2 border-white/70 transition-all duration-300 hover:scale-[103%]"
                 >
                     <motion.div className="flex items-center space-x-2" whileTap={{ scale: 0.95 }}>
